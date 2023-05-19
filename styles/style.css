@@ -1,0 +1,105 @@
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+.container {
+    margin: 0 auto;
+    width: 900px;
+    padding: 0 10px;
+}
+
+.expenses-app {
+    margin-top: 70px;
+}
+
+.expenses-app__title {
+    margin-bottom: 41px;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 39px;
+}
+
+.expenses-amount-wrapper {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 45px;
+}
+
+.expenses-amount {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid black;
+}
+
+.expenses-amount-input {
+    display: inline-block;
+    border: none;
+    outline: none;
+    width: 100%;
+    padding: 10px;
+    font-size: 32px;
+    line-height: 39px;
+}
+
+.tl::after {
+    content: ' TL ';
+    font-size: 32px;
+}
+
+.expenses-amount-btn {
+    display: inline-block;
+    padding: 10px 110px;
+    border: unset;
+    cursor: pointer;
+    background-color: #0094FF;
+}
+
+.expenses-amount-btn__text {
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 39px;
+    color: #FFFFFF;
+}
+
+h2 {
+    margin-bottom: 21px;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 39px;
+}
+
+p, span, div, ol, ul, li {
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 39px;
+}
+
+ol {
+    list-style-position: inside;
+}
+
+.expenses-app__content {
+    display: flex;
+    flex-direction: row;
+    gap: calc(24%);
+}
+
+.sum-title {
+    margin-bottom: 35px;
+}
+
+.status {
+    color: green;
+}
+
+.status_red {
+    color: red;
+}
+
+.history {
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 39px;
+}

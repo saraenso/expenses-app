@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>Expenses App</title>
+
+    <link rel="stylesheet" href="styles/style.css" />
+    <link rel="stylesheet" href="styles/reset.css" />
+  </head>
+  <body>
+    <section class="expenses-app">
+      <div class="container">
+        <h1 class="expenses-app__title">Учет расходов</h1>
+
+        <div class="expenses-amount-wrapper">
+          <div class="expenses-amount tl">
+            <input
+            class="js-expenses-amount-input expenses-amount-input tl"
+            type="number"
+            min="0"
+            step="any"
+          />
+          </div>
+          <button class="js-expenses-amount-btn expenses-amount-btn">
+            <p class="expenses-amount-btn__text">Добавить</p>
+          </button>
+        </div>
+
+        <ul class="expenses-app__content">
+          <li class="expenses-app__content-items">
+            <div class="expenses-app__content-item">
+              <h2 class="limit-title">
+                Лимит: <span class="js-limit limit"></span
+                ><span class="currency"> TL</span>
+              </h2>
+
+              <h2 class="sum-title">
+                Всего: <span class="js-sum sum"></span
+                ><span class="currency"> TL</span>
+              </h2>
+
+              <h2 class="status-title">
+                Статус: <span class="js-status status"></span>
+              </h2>
+            </div>
+          </li>
+          <li class="expenses-app__content-items">
+            <div class="expenses-app__content-item">
+              <h2 class="history-title">История:</h2>
+              <div class="js-history history"></div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+    <script src="index.js"></script>
+  </body>
+</html>
