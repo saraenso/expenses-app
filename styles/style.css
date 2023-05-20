@@ -22,7 +22,7 @@ body {
 .expenses-amount-wrapper {
     display: flex;
     gap: 30px;
-    margin-bottom: 45px;
+    margin-bottom: 20px;
 }
 
 .expenses-amount {
@@ -63,6 +63,22 @@ body {
     color: #FFFFFF;
 }
 
+.selection {
+    height: 60px;
+}
+
+.category-select {
+    display: inline-block;
+    margin-bottom: 45px;
+    display: inline-block;
+    border: 1px solid black;
+    outline: none;
+    width: 488px;
+    padding: 10px;
+    font-size: 32px;
+    line-height: 39px;
+}
+
 h2 {
     margin-bottom: 21px;
     font-weight: 700;
@@ -83,7 +99,20 @@ ol {
 .expenses-app__content {
     display: flex;
     flex-direction: row;
-    gap: calc(24%);
+    gap: 165px;
+}
+
+.expenses-app__content-items {
+    width: calc(42%);
+}
+
+.limit-image{
+    padding-left: 10px;
+    padding-top: 10px;
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
+    cursor: pointer;
 }
 
 .sum-title {
@@ -98,8 +127,121 @@ ol {
     color: red;
 }
 
+.clear-button {
+    display: inline-block;
+    width: 484px;
+    padding: 15px;
+    border: unset;
+    cursor: pointer;
+    background: #FF0000;
+}
+
+.clear-button__text {
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 39px;
+    color: #FFFFFF;
+}
+
 .history {
     font-weight: 400;
     font-size: 32px;
     line-height: 39px;
+}
+
+.popup {
+    display: none;
+  }
+
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    padding: 20px;
+    display: none;
+    z-index: 999;
+}
+
+.popup-form {
+    position: relative;
+    width: 991px;
+    height: 525px;
+    padding: 50px;
+}
+
+.popup-title {
+    margin-bottom: 150px;
+}
+
+.popup-flex {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.popup-close {
+    position: absolute;
+    top: 32px;
+    right: 34px;
+    width: 30px;
+    height: 30px;
+    background-image: url('../styles/close.png');
+    background-repeat: no-repeat;
+    background-position: 50%;
+    background-size: contain;
+    cursor: pointer;
+    border: none;
+    background-color: unset;
+}
+
+.popup-close-img {
+    position: absolute;
+    top: 32px;
+    right: 34px;
+    width: 50px;
+    height: 50px;
+    background-image: url('../resources/exit-btn.png');
+    background-repeat: no-repeat;
+    background-position: 50%;
+    background-size: contain;
+    cursor: pointer;
+    border: none;
+    background-color: unset;
+}
+
+.popup-input-wrapper {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0 22px;
+    border: 1px solid black;
+}
+
+.popup-input {
+    display: inline-block;
+    border: none;
+    outline: none;
+    width: 100%;
+    height: 58px;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 39px;
+}
+
+.popup-submit {
+    display: inline-block;
+    padding: 10px 110px;
+    border: unset;
+    cursor: pointer;
+    background-color: #0094FF;
+}
+
+.popup-submit__text {
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 39px;
+    color: #FFFFFF;
 }

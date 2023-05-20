@@ -1,98 +1,138 @@
-const LIMIT = 10000;
+let LIMIT = 10000;
 const CURRENCY = 'TL';
 const STATUS_IN_LIMIT = 'все хорошо';
 const STATUS_OUT_OF_LIMIT = 'все плохо';
 const STATUS_OUT_OF_LIMIT_CLASSNAME = 'status_red';
 
-const inputNode = document.querySelector('.js-expenses-amount-input')
-const buttonNode = document.querySelector('.js-expenses-amount-btn')
-const historyNode = document.querySelector('.js-history')
-const sumNode = document.querySelector('.js-sum')
-const limitNode = document.querySelector('.js-limit')
-const statusNode = document.querySelector('.js-status')
+const inputNode = document.querySelector('.js-expenses-amount-input');
+const buttonNode = document.querySelector('.js-expenses-amount-btn');
+const historyNode = document.querySelector('.js-history');
+const sumNode = document.querySelector('.js-sum');
+const limitNode = document.querySelector('.js-limit');
+const statusNode = document.querySelector('.js-status');
+const currentCategoryNode = document.querySelector('.js-category');
+const clearButtonNode = document.querySelector('.js-clear-button');
+const limitChangeNode = document.querySelector('.js-limit-image');
+const popupNode = document.querySelector('.js-popup');
+const popupFormNode = document.querySelector('.js-popup-form');
+const popupInputNode = document.querySelector('.js-popup-input');
+const popupSubmitNode = document.querySelector('.js-popup-submit');
+const popupCloseNode = document.querySelector('.js-popup-close');
 
-const expenses = [];
+let expenses = [];
 
-init(expenses);
+init();
 
-buttonNode.addEventListener('click', function() {
-    const expense = getExpenseFromUser();
+buttonNode.addEventListener('click', function () {
+  const expense = getExpenseFromUser();
 
-    if (!expense) {
-        return;
+  if (!expense) {
+    if (currentCategoryNode.value === 'Категория') {
+      alert('Выберите категорию');
     }
+    return;
+  }
 
-    trackExpense(expense);
+  trackExpense(expense);
 
-    render(expenses);
+  render();
 });
 
-function init(expenses) {
-    limitNode.innerText = LIMIT;
-    statusNode.innerText = STATUS_IN_LIMIT;
-    const sum = calculateExpenses(expenses);
-    sumNode.innerText = sum;
-};
+clearButtonNode.addEventListener('click', function () {
+  expenses = [];
+  render();
+});
+
+limitChangeNode.addEventListener('click', openPopup);
+popupFormNode.addEventListener('submit', changeLimit);
+popupCloseNode.addEventListener('click', closePopup);
+
+function init() {
+  limitNode.innerText = LIMIT;
+  statusNode.innerText = STATUS_IN_LIMIT;
+  const sum = calculateExpenses();
+  sumNode.innerText = sum;
+}
 
 function trackExpense(expense) {
-    expenses.push(expense);
+  expenses.push({ category: currentCategoryNode.value, amount: expense });
 }
 
 function getExpenseFromUser() {
-    if (!inputNode.value) {
-        return null;
-    }
-    
-    const expense = parseInt(inputNode.value);
+  if (!inputNode.value || currentCategoryNode.value === 'Категория') {
+    return null;
+  }
 
-    clearInput();
+  const expense = parseInt(inputNode.value);
 
-    return expense;
+  clearInput();
+
+  return expense;
 }
 
 function clearInput() {
-    inputNode.value = '';
+  inputNode.value = '';
 }
 
-function calculateExpenses(expenses) {
-    let sum = 0;
+function calculateExpenses() {
+  let sum = 0;
 
-    expenses.forEach(element => {
-        sum += element;
-    });
+  expenses.forEach((element) => {
+    sum += element.amount;
+  });
 
-    return sum;
+  return sum;
 }
 
-function render(expenses) {
-    const sum = calculateExpenses(expenses);
+function render() {
+  const sum = calculateExpenses();
 
-    renderHistory(expenses);
-    renderSum(sum);
-    renderStatus(sum);
+  renderHistory();
+  renderSum(sum);
+  renderStatus(sum);
 }
 
-function renderHistory(expenses) {
-    let expensesListHTML = '';
+function renderHistory() {
+  let expensesListHTML = '';
 
-    expenses.forEach(element => {
-        expensesListHTML += `<li>${element} ${CURRENCY}</li>`;
-    });
+  expenses.forEach((element) => {
+    expensesListHTML += `<li>${element.category}: ${element.amount} ${CURRENCY}</li>`;
+  });
 
-    historyNode.innerHTML = `<ol>${expensesListHTML}</ol>`;
+  historyNode.innerHTML = `<ol>${expensesListHTML}</ol>`;
 }
 
 function renderSum(sum) {
-    sumNode.innerText = sum;
+  sumNode.innerText = sum;
 }
 
 function renderStatus(totalSum) {
-    statusNode.classList.remove(STATUS_OUT_OF_LIMIT_CLASSNAME);
+  statusNode.classList.remove(STATUS_OUT_OF_LIMIT_CLASSNAME);
 
-    if (totalSum <= LIMIT) {
-        statusNode.innerText = STATUS_IN_LIMIT;
-    } else {
-        statusNode.innerText = STATUS_OUT_OF_LIMIT;
-        statusNode.classList.add(STATUS_OUT_OF_LIMIT_CLASSNAME);
-    }
+  if (totalSum <= LIMIT) {
+    statusNode.innerText = STATUS_IN_LIMIT;
+  } else {
+    statusNode.innerText = `${STATUS_OUT_OF_LIMIT} (${LIMIT - totalSum} ${CURRENCY})`;
+    statusNode.classList.add(STATUS_OUT_OF_LIMIT_CLASSNAME);
+  }
+}
+
+function openPopup() {
+  popupNode.style.display = 'block';
+  popupInputNode.value = LIMIT;
+}
+
+function closePopup() {
+  popupNode.style.display = 'none';
+}
+
+function changeLimit(event) {
+  event.preventDefault();
+  const newLimit = parseInt(popupInputNode.value);
+  if (!isNaN(newLimit)) {
+    LIMIT = newLimit;
+    limitNode.innerText = LIMIT;
+    render();
+    closePopup();
+  }
 }
