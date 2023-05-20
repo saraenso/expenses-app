@@ -34,12 +34,14 @@ buttonNode.addEventListener('click', function () {
   }
 
   trackExpense(expense);
+  saveExpensesToLocalStorage(); // Сохраняем историю трат в локальное хранилище
 
   render();
 });
 
 clearButtonNode.addEventListener('click', function () {
   expenses = [];
+  saveExpensesToLocalStorage(); // Сохраняем пустую историю трат в локальное хранилище
   render();
 });
 
@@ -48,10 +50,10 @@ popupFormNode.addEventListener('submit', changeLimit);
 popupCloseNode.addEventListener('click', closePopup);
 
 function init() {
+  loadExpensesFromLocalStorage(); // Загружаем сохраненную историю трат из локального хранилища
   limitNode.innerText = LIMIT;
   statusNode.innerText = STATUS_IN_LIMIT;
-  const sum = calculateExpenses();
-  sumNode.innerText = sum;
+  render();
 }
 
 function trackExpense(expense) {
@@ -134,5 +136,16 @@ function changeLimit(event) {
     limitNode.innerText = LIMIT;
     render();
     closePopup();
+  }
+}
+
+function saveExpensesToLocalStorage() {
+  localStorage.setItem('expenses', JSON.stringify(expenses));
+}
+
+function loadExpensesFromLocalStorage() {
+  const storedExpenses = localStorage.getItem('expenses');
+  if (storedExpenses) {
+    expenses = JSON.parse(storedExpenses);
   }
 }
