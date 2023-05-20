@@ -1,4 +1,5 @@
 let LIMIT = 10000;
+let currentLimit = LIMIT;
 const CURRENCY = 'TL';
 const STATUS_IN_LIMIT = 'все хорошо';
 const STATUS_OUT_OF_LIMIT = 'все плохо';
@@ -34,14 +35,14 @@ buttonNode.addEventListener('click', function () {
   }
 
   trackExpense(expense);
-  saveExpensesToLocalStorage(); // Сохраняем историю трат в локальное хранилище
+  saveExpensesToLocalStorage();
 
   render();
 });
 
 clearButtonNode.addEventListener('click', function () {
   expenses = [];
-  saveExpensesToLocalStorage(); // Сохраняем пустую историю трат в локальное хранилище
+  saveExpensesToLocalStorage();
   render();
 });
 
@@ -50,8 +51,9 @@ popupFormNode.addEventListener('submit', changeLimit);
 popupCloseNode.addEventListener('click', closePopup);
 
 function init() {
-  loadExpensesFromLocalStorage(); // Загружаем сохраненную историю трат из локального хранилища
-  limitNode.innerText = LIMIT;
+  loadExpensesFromLocalStorage();
+  currentLimit = loadLimitFromLocalStorage(); // Загрузка сохраненного значения лимита из локального хранилища
+  limitNode.innerText = currentLimit; // Используем текущий лимит для отображения
   statusNode.innerText = STATUS_IN_LIMIT;
   render();
 }
@@ -111,17 +113,17 @@ function renderSum(sum) {
 function renderStatus(totalSum) {
   statusNode.classList.remove(STATUS_OUT_OF_LIMIT_CLASSNAME);
 
-  if (totalSum <= LIMIT) {
+  if (totalSum <= currentLimit) { // Используем текущий лимит для проверки
     statusNode.innerText = STATUS_IN_LIMIT;
   } else {
-    statusNode.innerText = `${STATUS_OUT_OF_LIMIT} (${LIMIT - totalSum} ${CURRENCY})`;
+    statusNode.innerText = `${STATUS_OUT_OF_LIMIT} (${currentLimit - totalSum} ${CURRENCY})`; // Используем текущий лимит для отображения
     statusNode.classList.add(STATUS_OUT_OF_LIMIT_CLASSNAME);
   }
 }
 
 function openPopup() {
   popupNode.style.display = 'block';
-  popupInputNode.value = LIMIT;
+  popupInputNode.value = currentLimit; // Используем текущий лимит для отображения
 }
 
 function closePopup() {
@@ -132,8 +134,9 @@ function changeLimit(event) {
   event.preventDefault();
   const newLimit = parseInt(popupInputNode.value);
   if (!isNaN(newLimit)) {
-    LIMIT = newLimit;
-    limitNode.innerText = LIMIT;
+    currentLimit = newLimit; // Обновляем текущий лимит
+    saveLimitToLocalStorage(currentLimit); // Сохраняем новое значение лимита в локальное хранилище
+    limitNode.innerText = currentLimit; // Используем текущий лимит для отображения
     render();
     closePopup();
   }
@@ -148,4 +151,16 @@ function loadExpensesFromLocalStorage() {
   if (storedExpenses) {
     expenses = JSON.parse(storedExpenses);
   }
+}
+
+function saveLimitToLocalStorage(limit) {
+  localStorage.setItem('limit', limit.toString());
+}
+
+function loadLimitFromLocalStorage() {
+  const storedLimit = localStorage.getItem('limit');
+  if (storedLimit) {
+    return parseInt(storedLimit);
+  }
+  return LIMIT;
 }
